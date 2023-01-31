@@ -38,6 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:inputType="textEmailAddress"
         android:id="@+id/email_for_signUp"
         android:layout_marginTop="20dp"
         android:padding="15dp"
@@ -46,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
+        android:inputType="textPassword"
         android:id="@+id/password_for_signUp"
         android:layout_marginTop="12dp"
         android:padding="15dp"
