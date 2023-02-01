@@ -60,6 +60,13 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        binding.aboutUsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashboardActivity.this, AboutUsActivity.class));
+            }
+        });
+
         binding.signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +96,6 @@ public class DashboardActivity extends AppCompatActivity {
         }
     });
         loadData();
-
     }
 
     private final SensorEventListener mSensorListener = new SensorEventListener() {
