@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.sensor.proximity" />
 
@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker"
         tools:targetApi="31">
+        <activity
+            android:name=".ReportActivity"
+            android:exported="false" />
         <activity
             android:name=".AboutUsActivity"
             android:exported="false" />
