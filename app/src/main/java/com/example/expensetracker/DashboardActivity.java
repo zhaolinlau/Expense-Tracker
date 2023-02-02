@@ -43,12 +43,6 @@ public class DashboardActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mProximity;
 
-    private SensorManager sensorManager;
-    private Sensor lightSensor;
-    private SensorEventListener lightEventListener;
-    private View root;
-    private float maxValue;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,31 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
 
 
 
-        root = findViewById(R.id.dashboard);
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
 
-        if (lightSensor == null){
-            Toast.makeText(this, "The device has no light sensor :(", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
-        maxValue = lightSensor.getMaximumRange();
-
-        lightEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                float value = sensorEvent.values[0];
-                getSupportActionBar().setTitle("Luminosity : " + value + "lx");
-                int newValue = (int) (255f * value / maxValue);
-                root.setBackgroundColor(Color.rgb(newValue, newValue, newValue));
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
 
 
         firebaseFirestore=FirebaseFirestore.getInstance();
@@ -159,7 +129,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        sensorManager.registerListener(lightEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+
         mSensorManager.registerListener(mSensorListener, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -167,7 +137,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onPause() {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
-        sensorManager.unregisterListener(lightEventListener);
+
     }
 
     private void createSignOutDialog() {
