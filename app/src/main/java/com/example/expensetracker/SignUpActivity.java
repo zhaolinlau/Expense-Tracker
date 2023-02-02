@@ -1,10 +1,17 @@
 package com.example.expensetracker;
 
+import static android.hardware.Sensor.TYPE_LIGHT;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,11 +29,44 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     WifiManager wifiManager;
 
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
+    private SensorEventListener lightEventListener;
+    private View root;
+    private float maxValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        root= findViewById(R.id.root1);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
+
+        if (lightSensor == null){
+            Toast.makeText(this, "The device has no light sensor :(", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        maxValue = lightSensor.getMaximumRange();
+
+        lightEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float value = sensorEvent.values[0];
+                getSupportActionBar().setTitle("Luminosity : " + value + "lx");
+                int newValue = (int) (255f * value / maxValue);
+                root.setBackgroundColor(Color.rgb(newValue, newValue, newValue));
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
         firebaseAuth=FirebaseAuth.getInstance();
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
@@ -73,5 +113,14 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(lightEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+    }
+
+    protected void onPause(){
+        super.onPause();
+        sensorManager.unregisterListener(lightEventListener);
     }
 }

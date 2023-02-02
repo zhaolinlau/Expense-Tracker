@@ -1,5 +1,7 @@
 package com.example.expensetracker;
 
+import static android.hardware.Sensor.TYPE_LIGHT;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +18,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.expensetracker.databinding.ActivityDashboardBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +42,14 @@ public class DashboardActivity extends AppCompatActivity {
 
     private SensorManager mSensorManager;
     private Sensor mProximity;
+
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
+    private SensorEventListener lightEventListener;
+    private View root;
+    private float maxValue;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -44,6 +57,36 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding=ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+
+        root = findViewById(R.id.dashboard);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
+
+        if (lightSensor == null){
+            Toast.makeText(this, "The device has no light sensor :(", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        maxValue = lightSensor.getMaximumRange();
+
+        lightEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float value = sensorEvent.values[0];
+                getSupportActionBar().setTitle("Luminosity : " + value + "lx");
+                int newValue = (int) (255f * value / maxValue);
+                root.setBackgroundColor(Color.rgb(newValue, newValue, newValue));
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
+
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
         transactionModelArrayList=new ArrayList<>();
@@ -84,17 +127,17 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             }
         });
-    binding.refreshBtn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try {
-                startActivity(new Intent(DashboardActivity.this,DashboardActivity.class));
-                finish();
-            } catch (Exception e) {
+        binding.refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    startActivity(new Intent(DashboardActivity.this,DashboardActivity.class));
+                    finish();
+                } catch (Exception e) {
 
+                }
             }
-        }
-    });
+        });
         loadData();
     }
 
@@ -115,6 +158,8 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        sensorManager.registerListener(lightEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
         mSensorManager.registerListener(mSensorListener, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -122,6 +167,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onPause() {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
+        sensorManager.unregisterListener(lightEventListener);
     }
 
     private void createSignOutDialog() {
@@ -151,34 +197,38 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void loadData() {
         firebaseFirestore.collection("Expenses").document(firebaseAuth.getUid()).collection("Notes")
-            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    transactionModelArrayList.clear();
-                    sumExpense = 0;
-                    sumIncome = 0;
-                    for (DocumentSnapshot ds:task.getResult()) {
-                        TransactionModel model=new TransactionModel(
-                                ds.getString("id"),
-                                ds.getString("note"),
-                                ds.getString("amount"),
-                                ds.getString("type"),
-                                ds.getString("date"));
-                        int amount=Integer.parseInt(ds.getString("amount"));
-                        if (ds.getString("type").equals("Expense")) {
-                            sumExpense=sumExpense+amount;
-                        } else {
-                            sumIncome=sumIncome+amount;
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        transactionModelArrayList.clear();
+                        sumExpense = 0;
+                        sumIncome = 0;
+                        for (DocumentSnapshot ds:task.getResult()) {
+                            TransactionModel model=new TransactionModel(
+                                    ds.getString("id"),
+                                    ds.getString("note"),
+                                    ds.getString("amount"),
+                                    ds.getString("type"),
+                                    ds.getString("date"));
+                            int amount=Integer.parseInt(ds.getString("amount"));
+                            if (ds.getString("type").equals("Expense")) {
+                                sumExpense=sumExpense+amount;
+                            } else {
+                                sumIncome=sumIncome+amount;
+                            }
+                            transactionModelArrayList.add(model);
                         }
-                        transactionModelArrayList.add(model);
-                    }
-                    binding.totalIncome.setText(String.valueOf(sumIncome));
-                    binding.totalExpense.setText(String.valueOf(sumExpense));
-                    binding.totalBalance.setText(String.valueOf(sumIncome-sumExpense));
+                        binding.totalIncome.setText(String.valueOf(sumIncome));
+                        binding.totalExpense.setText(String.valueOf(sumExpense));
+                        binding.totalBalance.setText(String.valueOf(sumIncome-sumExpense));
 
-                    transactionAdapter=new TransactionAdapter(DashboardActivity.this,transactionModelArrayList);
-                    binding.historyRecycleView.setAdapter(transactionAdapter);
-                }
-            });
+                        transactionAdapter=new TransactionAdapter(DashboardActivity.this,transactionModelArrayList);
+                        binding.historyRecycleView.setAdapter(transactionAdapter);
+                    }
+                });
     }
+
+
+
 }
+

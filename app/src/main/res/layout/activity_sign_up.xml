@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
+    style="@style/SCREEN"
+
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:orientation="vertical"
+    android:id="@+id/root1"
     tools:context=".SignUpActivity">
 
     <TextView
@@ -18,6 +20,7 @@
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/TEXT"
         android:text="Expense Tracker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +31,7 @@
         android:textStyle="bold"
         android:textSize="24sp"
         android:textAlignment="center"
+        style="@style/TEXT"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,6 +46,9 @@
         android:id="@+id/email_for_signUp"
         android:layout_marginTop="20dp"
         android:padding="15dp"
+        android:textColor="@color/black"
+        style="@style/EDITTEXT"
+        android:textColorHint="@color/black"
         android:background="@drawable/edit_text_background"
         android:hint="Please enter your email..."
         android:layout_width="match_parent"
@@ -49,8 +56,11 @@
     <EditText
         android:inputType="textPassword"
         android:id="@+id/password_for_signUp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:layout_marginTop="12dp"
         android:padding="15dp"
+        style="@style/EDITTEXT"
         android:background="@drawable/edit_text_background"
         android:hint="Please enter your password..."
         android:layout_width="match_parent"
@@ -69,6 +79,7 @@
         android:layout_marginTop="12dp"
         android:textColor="@color/white"
         android:gravity="center"
+        style="@style/TEXT"
         android:text="Already have an account? Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa"
+    style="@style/SCREEN"
     android:orientation="vertical"
+    android:id="@+id/about_us"
     tools:context=".AboutUsActivity">
     <RelativeLayout
         android:id="@+id/custom_toolbar_add_transaction"
         android:layout_width="match_parent"
-        android:background="@color/teal_700"
+        android:background="#0F403F"
         android:layout_height="?actionBarSize">
         <TextView
             android:textColor="@color/white"
@@ -41,6 +42,7 @@
     <androidx.cardview.widget.CardView
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        app:cardBackgroundColor="#0F403F"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="100dp">
@@ -56,7 +58,7 @@
                 <TextView
                     android:text="Expenses Tracker is an application that allow users to manage their daily expenses in more convenient way."
                     android:textSize="18sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>

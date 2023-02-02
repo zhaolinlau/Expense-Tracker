@@ -4,17 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
+    style="@style/SCREEN"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:orientation="vertical"
+    android:id="@+id/root"
     tools:context=".MainActivity">
 
+
     <TextView
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:textStyle="bold"
         android:textSize="24sp"
         android:textAlignment="center"
+        style="@style/TEXT"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,6 +31,7 @@
         android:textStyle="bold"
         android:textSize="24sp"
         android:textAlignment="center"
+        style="@style/TEXT"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,8 +45,11 @@
         android:id="@+id/email_login"
         android:layout_marginTop="20dp"
         android:padding="15dp"
+        android:textColor="@color/black"
         android:background="@drawable/edit_text_background"
         android:hint="Please enter your email..."
+        android:textColorHint="@color/black"
+        style="@style/EDITTEXT"
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -51,6 +58,8 @@
         android:id="@+id/password_login"
         android:layout_marginTop="12dp"
         android:padding="15dp"
+        style="@style/EDITTEXT"
+        android:textColorHint="@color/black"
         android:background="@drawable/edit_text_background"
         android:hint="Please enter your password..."
         android:layout_width="match_parent"
@@ -60,6 +69,7 @@
         android:layout_marginTop="12dp"
         android:textColor="@color/black"
         android:text="Login"
+
         android:backgroundTint="@color/white"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
@@ -70,8 +80,16 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:gravity="center"
+        style="@style/TEXT"
         android:text="New user? Create an account."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
+
+
+
+
 </LinearLayout>
+
+
