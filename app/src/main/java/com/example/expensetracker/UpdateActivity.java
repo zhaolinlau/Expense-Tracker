@@ -27,14 +27,42 @@ public class UpdateActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
 
-
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
+    private SensorEventListener lightEventListener;
+    private View root;
+    private float maxValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityUpdateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        root = findViewById(R.id.update);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(TYPE_LIGHT);
 
+        if (lightSensor == null){
+            Toast.makeText(this, "The device has no light sensor :(", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        maxValue = lightSensor.getMaximumRange();
+
+        lightEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float value = sensorEvent.values[0];
+                getSupportActionBar().setTitle("Luminosity : " + value + "lx");
+                int newValue = (int) (255f * value / maxValue);
+                root.setBackgroundColor(Color.rgb(newValue, newValue, newValue));
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
 
 
 
@@ -131,5 +159,13 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
     }
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(lightEventListener, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+    }
 
+    protected void onPause(){
+        super.onPause();
+        sensorManager.unregisterListener(lightEventListener);
+    }
 }
