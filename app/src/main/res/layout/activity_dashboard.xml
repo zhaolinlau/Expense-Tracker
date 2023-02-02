@@ -21,6 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <ImageView
+            android:id="@+id/report_btn"
+            android:layout_toRightOf="@+id/refresh_btn"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/report_img"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
             android:id="@+id/sign_out_btn"
             android:layout_marginRight="10dp"
             android:src="@drawable/signout_img"
@@ -30,8 +38,8 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/about_us_btn"
-            android:layout_toRightOf="@+id/refresh_btn"
-            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/sign_out_btn"
+            android:layout_marginRight="12dp"
             android:src="@drawable/info_img"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
@@ -125,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/card_view_labels"
-        android:layout_marginTop="-81dp">
+        android:layout_marginTop="20dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/history_recycle_view"

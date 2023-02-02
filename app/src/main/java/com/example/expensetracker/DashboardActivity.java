@@ -80,6 +80,13 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        binding.reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(DashboardActivity.this, ReportActivity.class));
+            }
+        });
+
         binding.signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
