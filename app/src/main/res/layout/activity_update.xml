@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"/>
     </RelativeLayout>
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/user_amount_add"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/user_note_add"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
