@@ -21,8 +21,11 @@ public class ReportActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseFirestore firebaseFirestore;
+    int accountBalance=0;
     int sumExpense=0;
     int sumIncome=0;
+    int countIncome=0;
+    int countExpenses=0;
     String type="";
     ArrayList<TransactionModel> transactionModelArrayList;
     TransactionAdapter transactionAdapter;
@@ -49,6 +52,8 @@ public class ReportActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         transactionModelArrayList.clear();
+                        countIncome = 0;
+                        countExpenses = 0;
                         sumExpense = 0;
                         sumIncome = 0;
                         for (DocumentSnapshot ds:task.getResult()) {
@@ -60,14 +65,17 @@ public class ReportActivity extends AppCompatActivity {
                                     ds.getString("date"));
                             int amount=Integer.parseInt(ds.getString("amount"));
                             if (ds.getString("type").equals("Expense")) {
+                                countExpenses=countExpenses+1;
                                 sumExpense=sumExpense+amount;
                             } else {
+                                countIncome=countIncome+1;
                                 sumIncome=sumIncome+amount;
                             }
                             transactionModelArrayList.add(model);
                         }
-                        binding.tvCountIncome.setText(String.valueOf(sumIncome));
-                        binding.tvCountExpenses.setText(String.valueOf(sumExpense));
+                        binding.tvBalanceAccount.setText(String.valueOf(sumIncome-sumExpense));
+                        binding.tvCountIncome.setText(String.valueOf(countIncome));
+                        binding.tvCountExpenses.setText(String.valueOf(countExpenses));
 
                         transactionAdapter=new TransactionAdapter(ReportActivity.this,transactionModelArrayList);
                     }
