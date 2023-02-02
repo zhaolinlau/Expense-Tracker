@@ -13,4 +13,38 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Light Mode -->
+    <!-- Screen Background on light mode-->
+    <style name = "SCREEN">
+        <item name="android:background">@color/teal_700</item>
+    </style>
+
+    <!-- Text Background on light mode-->
+    <style name = "TEXT">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <!-- Button on light mode-->
+    <style name = "BUTTON">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Edit Text Background on light mode-->
+    <style name = "EDITTEXT">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    //for transaction page
+    <style name = "SCREEN1">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <!-- Text Background on light mode on transcation page-->
+    <style name = "TEXT1">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

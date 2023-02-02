@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#fafafa"
     android:orientation="vertical"
+    android:id="@+id/update"
     tools:context=".UpdateActivity">
     <RelativeLayout
         android:id="@+id/custom_toolbar_add_transaction"

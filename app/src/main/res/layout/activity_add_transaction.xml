@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa"
+    style="@style/SCREEN1"
     android:orientation="vertical"
+    android:id="@+id/addtransaction"
     tools:context=".AddTransactionActivity">
     <RelativeLayout
         android:id="@+id/custom_toolbar_add_transaction"
@@ -27,7 +28,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:inputType="number"
+        android:textColorHint="@color/black"
         android:hint="Amount"
+        style="@style/TEXT1"
         android:layout_marginTop="30dp"
         android:padding="15dp"
         android:background="@drawable/edit_text_bg"
@@ -38,6 +41,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:hint="Note"
+        android:textColorHint="@color/black"
+        style="@style/TEXT1"
         android:textAlignment="textStart"
         android:gravity="start"
         android:layout_marginTop="8dp"
@@ -77,4 +82,6 @@
         android:text="Add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+
 </LinearLayout>
