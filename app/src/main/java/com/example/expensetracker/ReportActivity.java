@@ -26,6 +26,8 @@ public class ReportActivity extends AppCompatActivity {
     int sumIncome=0;
     int countIncome=0;
     int countExpenses=0;
+    double averageIncome=0;
+    double averageExpenses=0;
     String type="";
     ArrayList<TransactionModel> transactionModelArrayList;
     TransactionAdapter transactionAdapter;
@@ -76,6 +78,11 @@ public class ReportActivity extends AppCompatActivity {
                         binding.tvBalanceAccount.setText(String.valueOf(sumIncome-sumExpense));
                         binding.tvCountIncome.setText(String.valueOf(countIncome));
                         binding.tvCountExpenses.setText(String.valueOf(countExpenses));
+                        binding.tvAverageIncome.setText(String.valueOf(sumIncome/countIncome));
+                        binding.tvAverageExpenses.setText(String.valueOf(sumExpense/countExpenses));
+                        binding.tvTotalIncome.setText(String.valueOf(sumIncome));
+                        binding.tvTotalExpenses.setText(String.valueOf(sumExpense));
+                        binding.tvCashFlow.setText(String.valueOf(sumIncome-sumExpense));
 
                         transactionAdapter=new TransactionAdapter(ReportActivity.this,transactionModelArrayList);
                     }
